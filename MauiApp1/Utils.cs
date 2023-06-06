@@ -34,8 +34,14 @@ namespace MauiApp1
 
     public static class Utils
     {
-        public static int CompareUrgency(AllUrgency urg1, AllUrgency urg2)
+        public static int CompareUrgency(AllUrgency? urg1, AllUrgency? urg2)
         {
+            if (urg1 is null && urg2 is null)
+                return 0;
+            if (urg1 is null) 
+                return -1;
+            if (urg2 is null) 
+                return 1;
             if (urg1 == urg2)
                 return 0;
             if (urg1 == AllUrgency.Urgent)
@@ -60,17 +66,17 @@ namespace MauiApp1
         }
     }
 
-    public class SortedList<T>
+    public class SortedList<T> where T : IComparable<T>
     {
         public List<T> ObjectList { get; private set; }
 
         // T1 > T2 ? 1: T1 == T2 ? 0 : 1
         public Func<T, T, int> CompareFunc { get; }
 
-        public SortedList(Func<T, T, int> func)
+        public SortedList(Func<T, T, int> func, List<T>? objectList = null)
         {
-            ObjectList = new List<T>();
             CompareFunc = func;
+            ObjectList = objectList is null ? new List<T>() : objectList.OrderByDescending(i => i).ToList();
         }
 
         public void Add(T obj)

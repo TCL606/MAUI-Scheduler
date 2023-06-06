@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace MauiApp1
 {
 
-    public class Event
+    public class Event: IComparable<Event>
     {
         public string Name { get; set; }
         public AllUrgency Urgency { get; set; }
@@ -24,6 +25,11 @@ namespace MauiApp1
                 $"Detail: {Detail}";
         }
 
+        public int CompareTo(Event? e)
+        {
+            return Utils.CompareUrgency(this.Urgency, e?.Urgency);
+        }
+
         public Event(string name, AllUrgency urgency, string ddL, string detail = "")
         {
             Name = name;
@@ -37,9 +43,9 @@ namespace MauiApp1
     {
         private SortedList<Event> events;
 
-        public EventModel()
+        public EventModel(List<Event>? eventList = null)
         {
-            events = new SortedList<Event>((Event x, Event y) => Utils.CompareUrgency(x.Urgency, y.Urgency));
+            events = new SortedList<Event>((Event x, Event y) => Utils.CompareUrgency(x.Urgency, y.Urgency), eventList);
         }
 
         public void AddEvent(Event e)

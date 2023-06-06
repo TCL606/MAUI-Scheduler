@@ -23,6 +23,7 @@ namespace MauiApp1
             {
                 Events.Add(e);
             }
+            this.storager.WriteIn(model.GetEvents());
         }
 
         private string newEventName = "";
@@ -143,12 +144,24 @@ namespace MauiApp1
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        protected DataStorager storager;
+
         public EventViewModel()
         {
-            model = new EventModel();
+            var appDataPath = FileSystem.AppDataDirectory;
+            var filePath = Path.Combine(appDataPath, "data.json");
+            this.storager = new(filePath);
+            List<Event>? eventList = null;
+            try
+            {
+                eventList = this.storager.ReadFrom();
+            }
+            catch { }
+            model = new EventModel(eventList);
             Events = new ObservableCollection<Event>(model.GetEvents());
             this.AddEventCommand = new Command(CAddEvent);
             this.DeleteEventCommand = new Command<Event>(CDeleteEvent);
+            RefreshEvents();
         }
     }
 }
