@@ -1,0 +1,85 @@
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:MauiApp1"
+             x:Name="MainSchedulePage"
+             x:Class="MauiApp1.MainPage">
+    <ContentPage.BindingContext>
+        <local:EventViewModel />
+    </ContentPage.BindingContext>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.15*"></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="0.15*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.1*"></RowDefinition>
+            <RowDefinition Height="0.3*"></RowDefinition>
+            <RowDefinition Height="0.3*"></RowDefinition>
+            <RowDefinition Height="0.3*"></RowDefinition>
+            <RowDefinition Height="0.3*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <StackLayout Grid.Column="1" Grid.Row="0" Grid.RowSpan="4">
+            <ListView ItemsSource="{Binding Events, Mode=TwoWay}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <SwipeView>
+                                <SwipeView.RightItems>
+                                    <SwipeItems>
+                                        <SwipeItem Text="Delete" 
+                                           IconImageSource="delete.png" 
+                                           BackgroundColor="Red" 
+                                           Command="{Binding Source={x:Reference Name=MainSchedulePage}, Path=BindingContext.DeleteEventCommand}" 
+                                           CommandParameter="{Binding .}" />
+                                    </SwipeItems>
+                                </SwipeView.RightItems>
+                                <SwipeView.Content>
+                                    <StackLayout Orientation="Vertical">
+                                        <Label Text="{Binding Name}"/>
+                                        <Label Text="{Binding Info, Mode=TwoWay}"/>
+                                    </StackLayout>
+                                </SwipeView.Content>
+                            </SwipeView>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+
+
+        <StackLayout Grid.Column="1" Grid.Row="5">
+            <Button Text="Add Event" Command="{Binding AddEventCommand}"/>
+        </StackLayout>
+
+
+        <StackLayout Grid.Column="2" Grid.Row="1">
+            <Label Text="New Event"> </Label>
+            <Entry Text="{Binding NewEventName, Mode=TwoWay}" BackgroundColor="#D3D3D3"></Entry>
+        </StackLayout>
+
+        <StackLayout Grid.Column="2" Grid.Row="2">
+            <Label Text="Priority"></Label>
+            <Picker ItemsSource="{Binding AvailUrgency, Mode=TwoWay}" SelectedItem="{Binding NewEventUrgency, Mode=TwoWay}" BackgroundColor="#D3D3D3"></Picker>
+        </StackLayout>
+
+        <StackLayout Grid.Column="2" Grid.Row="3">
+            <Label Text="DDL Date"></Label>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
+
+                <DatePicker Format="dddd, MMMM dd" Date="{Binding NewEventDDLDate}" Grid.Row="0" BackgroundColor="#D3D3D3"></DatePicker>
+                <TimePicker Format="HH:mm" Time="{Binding NewEventDDLTime}" Grid.Row="1"  HorizontalOptions="FillAndExpand" BackgroundColor="#D3D3D3"></TimePicker>
+            </Grid>
+        </StackLayout>
+
+
+    </Grid>
+</ContentPage>
