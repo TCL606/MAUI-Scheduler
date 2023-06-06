@@ -11,4 +11,6 @@ public partial class MainPage : ContentPage
 		InitializeComponent();
         this.BindingContext = BindingContext as EventViewModel;
 	}
+
+    //private void OnTapEvent(object sender, ItemTappedEventArgs e) => (this.BindingContext as EventViewModel)?.OnTapEvent(sender, e);
 }

@@ -20,11 +20,14 @@
             <RowDefinition Height="0.3*"></RowDefinition>
             <RowDefinition Height="0.3*"></RowDefinition>
             <RowDefinition Height="0.3*"></RowDefinition>
-            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="0.3*"></RowDefinition>
+            <RowDefinition Height="0.15*"></RowDefinition>
+            <RowDefinition Height="0.85*"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <StackLayout Grid.Column="1" Grid.Row="0" Grid.RowSpan="4">
-            <ListView ItemsSource="{Binding Events, Mode=TwoWay}">
+        <StackLayout Grid.Column="1" Grid.Row="1" Grid.RowSpan="4" Margin="10">
+            <ListView ItemsSource="{Binding Events, Mode=TwoWay}" SelectedItem="{Binding SelectedEvent}">
+                <!--ItemTapped="OnTapEvent"-->
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
@@ -39,7 +42,7 @@
                                     </SwipeItems>
                                 </SwipeView.RightItems>
                                 <SwipeView.Content>
-                                    <StackLayout Orientation="Vertical">
+                                    <StackLayout Orientation="Vertical" Margin="10,2,10,2">
                                         <Label Text="{Binding Name}"/>
                                         <Label Text="{Binding Info, Mode=TwoWay}"/>
                                     </StackLayout>
@@ -52,34 +55,57 @@
         </StackLayout>
 
 
-        <StackLayout Grid.Column="1" Grid.Row="5">
-            <Button Text="Add Event" Command="{Binding AddEventCommand}"/>
+        <StackLayout Grid.Column="1" Grid.Row="6">
+            <Button Text="Add Event" FontSize="Medium" Command="{Binding AddEventCommand}"/>
         </StackLayout>
 
 
         <StackLayout Grid.Column="2" Grid.Row="1">
-            <Label Text="New Event"> </Label>
+            <Label Text="New Event" FontAttributes="Bold"> </Label>
             <Entry Text="{Binding NewEventName, Mode=TwoWay}" BackgroundColor="#D3D3D3"></Entry>
         </StackLayout>
 
         <StackLayout Grid.Column="2" Grid.Row="2">
-            <Label Text="Priority"></Label>
+            <Label Text="Urgency" FontAttributes="Bold"></Label>
             <Picker ItemsSource="{Binding AvailUrgency, Mode=TwoWay}" SelectedItem="{Binding NewEventUrgency, Mode=TwoWay}" BackgroundColor="#D3D3D3"></Picker>
         </StackLayout>
 
         <StackLayout Grid.Column="2" Grid.Row="3">
-            <Label Text="DDL Date"></Label>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="1*" />
-                    <RowDefinition Height="1*" />
-                </Grid.RowDefinitions>
-
-                <DatePicker Format="dddd, MMMM dd" Date="{Binding NewEventDDLDate}" Grid.Row="0" BackgroundColor="#D3D3D3"></DatePicker>
-                <TimePicker Format="HH:mm" Time="{Binding NewEventDDLTime}" Grid.Row="1"  HorizontalOptions="FillAndExpand" BackgroundColor="#D3D3D3"></TimePicker>
-            </Grid>
+            <Label Text="DDL Date" FontAttributes="Bold"></Label>
+            <Frame BorderColor="Gray" Padding="0">
+                <DatePicker Format="dddd, MMMM dd" Date="{Binding NewEventDDLDate}" HorizontalOptions="Center"></DatePicker>
+            </Frame>
         </StackLayout>
 
+        <StackLayout Grid.Column="2" Grid.Row="4" HorizontalOptions="FillAndExpand">
+            <Label Text="DDL Time" FontAttributes="Bold"></Label>
+            <Frame BorderColor="Gray" Padding="0">
+                <TimePicker Format="HH:mm" Time="{Binding NewEventDDLTime}"  HorizontalOptions="Center"></TimePicker>
+            </Frame>
+        </StackLayout>
+
+        <StackLayout Grid.Column="2" Grid.Row="5">
+            <Label Text="Detail" FontAttributes="Bold"></Label>
+            <Entry Text="{Binding Detail, Mode=TwoWay}" BackgroundColor="#D3D3D3"></Entry>
+        </StackLayout>
+
+        <StackLayout Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="7">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.3*" />
+                    <RowDefinition Height="0.7*" />
+                </Grid.RowDefinitions>
+                <StackLayout Grid.Row="0"  Margin="7">
+                    <Frame BorderColor="AliceBlue" BackgroundColor="AliceBlue" Padding="5">
+                        <Label Text="Event Info" HorizontalTextAlignment="Center" FontSize="Title" FontAttributes="Bold" TextColor="Chocolate" FontFamily="Times New Roman"></Label>
+                    </Frame>
+                </StackLayout>
+
+                <StackLayout Grid.Row="2">
+                    <Label Text="{Binding SelectedEvent.DetailInfo}" HorizontalTextAlignment="Center" LineHeight="1.35" FontSize="Medium" TextColor="Black" FontFamily="Times New Roman" Margin="10"></Label>
+                </StackLayout>
+            </Grid>
+        </StackLayout>
 
     </Grid>
 </ContentPage>

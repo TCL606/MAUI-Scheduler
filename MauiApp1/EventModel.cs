@@ -12,34 +12,34 @@ namespace MauiApp1
         public string Name { get; set; }
         public AllUrgency Urgency { get; set; }
         public string DDL { get; set; }
-        public string Info => Urgency.ToString() + " | DDL: "+ DDL;
-        public Event(string name, AllUrgency urgency, string ddL)
+        public string Info => Urgency.ToString() + " | DDL: " + DDL;
+        public string Detail { get; set; }
+        public string DetailInfo => GetDetailInfo();
+
+        private string GetDetailInfo()
+        {
+            return $"Event: {Name} \n" +
+                $"Urgency: {Urgency.ToString()} \n" +
+                $"DDL: {DDL} \n" +
+                $"Detail: {Detail}";
+        }
+
+        public Event(string name, AllUrgency urgency, string ddL, string detail = "")
         {
             Name = name;
             Urgency = urgency;
             DDL = ddL;
-        }
-    }
-
-    public class EventComparer : IComparer<Event>
-    {
-        public int Compare(Event? x, Event? y)
-        {
-            if (x is null)
-                return y is null ? 0 : -1;
-            if (y is null)
-                return 1;
-            return Utils.CompareUrgency(x.Urgency, y.Urgency);
+            Detail = detail;
         }
     }
 
     public class EventModel
     {
-        private List<Event> events;
+        private SortedList<Event> events;
 
         public EventModel()
         {
-            events = new List<Event>();
+            events = new SortedList<Event>((Event x, Event y) => Utils.CompareUrgency(x.Urgency, y.Urgency));
         }
 
         public void AddEvent(Event e)
@@ -49,7 +49,7 @@ namespace MauiApp1
 
         public List<Event> GetEvents()
         {
-            return events;
+            return events.ObjectList;
         }
 
         public void DeleteEvent(Event? e)
