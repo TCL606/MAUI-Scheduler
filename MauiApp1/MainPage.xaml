@@ -56,9 +56,12 @@
 
 
         <StackLayout Grid.Column="1" Grid.Row="6">
-            <Button Text="Add Event" FontSize="Medium" Command="{Binding AddEventCommand}"/>
+            <Button Text="Add Event" FontSize="Medium" Command="{Binding AddEventCommand}" Margin="10,0,10,0"/>
         </StackLayout>
 
+        <StackLayout Grid.Column="2" Grid.Row="6">
+            <Button Text="Refresh" FontSize="Medium" Command="{Binding RefreshCommand}" Margin="10,0,10,0"/>
+        </StackLayout>
 
         <StackLayout Grid.Column="2" Grid.Row="1">
             <Label Text="New Event" FontAttributes="Bold"> </Label>

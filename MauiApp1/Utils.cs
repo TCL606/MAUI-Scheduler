@@ -7,6 +7,21 @@ using System.Windows.Input;
 
 namespace MauiApp1
 {
+    public class Command : ICommand
+    {
+        public event EventHandler? CanExecuteChanged { add { } remove { } }
+
+        public bool CanExecute(object? parameter) => true;
+
+        public void Execute(object? parameter) => exeFunc();
+
+        private Action exeFunc;
+
+        public Command(Action exe)
+        {
+            this.exeFunc = exe;
+        }
+    }
 
     public class Command<T> : ICommand
     {

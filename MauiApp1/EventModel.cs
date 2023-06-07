@@ -8,12 +8,13 @@ using System.IO;
 namespace MauiApp1
 {
 
-    public class Event: IComparable<Event>
+    public class Event : IComparable<Event>
     {
         public string Name { get; set; }
         public AllUrgency Urgency { get; set; }
-        public string DDL { get; set; }
-        public string Info => Urgency.ToString() + " | DDL: " + DDL;
+        public DateTime DDLDate { get; set; }
+        public TimeSpan DDLTime { get; set; }
+        public string Info => Urgency.ToString() + " | DDL: " + DDLDate.ToString("MM/dd") + " " + DDLTime.ToString(@"hh\:mm");
         public string Detail { get; set; }
         public string DetailInfo => GetDetailInfo();
 
@@ -21,7 +22,7 @@ namespace MauiApp1
         {
             return $"Event: {Name} \n" +
                 $"Urgency: {Urgency.ToString()} \n" +
-                $"DDL: {DDL} \n" +
+                $"DDL: {DDLDate.ToShortDateString() + " " + DDLTime.ToString(@"hh\:mm")} \n" +
                 $"Detail: {Detail}";
         }
 
@@ -35,11 +36,12 @@ namespace MauiApp1
             return 0;
         }
 
-        public Event(string name, AllUrgency urgency, string ddL, string detail = "")
+        public Event(string name, AllUrgency urgency, DateTime ddLDate, TimeSpan ddLTime, string detail = "")
         {
             Name = name;
             Urgency = urgency;
-            DDL = ddL;
+            DDLDate = ddLDate;
+            DDLTime = ddLTime;
             Detail = detail;
         }
     }

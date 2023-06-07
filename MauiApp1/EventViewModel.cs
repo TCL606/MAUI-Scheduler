@@ -93,24 +93,28 @@ namespace MauiApp1
         }
 
         public Command AddEventCommand { get; init; }
-        public void CAddEvent()
+        private void CAddEvent()
         {
             if (this.NewEventName == "" || this.newEventUrgency == "")
                 return;
-            var newEvent = new Event(this.newEventName, Utils.GetUrgency(this.newEventUrgency) ?? AllUrgency.Cake, this.NewEventDDLDate.ToShortDateString() + " " + this.NewEventDDLTime.ToString(@"hh\:mm"), this.Detail);
+            var newEvent = new Event(this.newEventName, Utils.GetUrgency(this.newEventUrgency) ?? AllUrgency.Cake, NewEventDDLDate, NewEventDDLTime, this.Detail);
             model.AddEvent(newEvent);
             RefreshEvents();
             ResetWhenPushEvent();
         }
 
         public Command<Event> DeleteEventCommand { get; init; }
-        public void CDeleteEvent(Event? e)
+        private void CDeleteEvent(Event? e)
         {
             this.model.DeleteEvent(e);
             RefreshEvents();
         }
 
-       
+        public Command RefreshCommand { get; init; }
+        private void CRefresh()
+        {
+            RefreshEvents();
+        }
         private Event? selectedEvent;
         public Event? SelectedEvent
         {
@@ -161,6 +165,7 @@ namespace MauiApp1
             Events = new ObservableCollection<Event>(model.GetEvents());
             this.AddEventCommand = new Command(CAddEvent);
             this.DeleteEventCommand = new Command<Event>(CDeleteEvent);
+            this.RefreshCommand = new Command(CRefresh);
             RefreshEvents();
         }
     }
