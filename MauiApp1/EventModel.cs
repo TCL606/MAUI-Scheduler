@@ -27,7 +27,12 @@ namespace MauiApp1
 
         public int CompareTo(Event? e)
         {
-            return Utils.CompareUrgency(this.Urgency, e?.Urgency);
+            var val = Utils.CompareUrgency(this.Urgency, e?.Urgency);
+            if (val != 0)
+                return val;
+
+            // TODO
+            return 0;
         }
 
         public Event(string name, AllUrgency urgency, string ddL, string detail = "")

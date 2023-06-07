@@ -9,10 +9,10 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.15*"></ColumnDefinition>
+            <ColumnDefinition Width="0.07*"></ColumnDefinition>
             <ColumnDefinition Width="2*"></ColumnDefinition>
             <ColumnDefinition Width="1*"></ColumnDefinition>
-            <ColumnDefinition Width="0.15*"></ColumnDefinition>
+            <ColumnDefinition Width="0.07*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.1*"></RowDefinition>
@@ -42,7 +42,7 @@
                                     </SwipeItems>
                                 </SwipeView.RightItems>
                                 <SwipeView.Content>
-                                    <StackLayout Orientation="Vertical" Margin="10,2,10,2">
+                                    <StackLayout Orientation="Vertical" Margin="8,2,8,2">
                                         <Label Text="{Binding Name}"/>
                                         <Label Text="{Binding Info, Mode=TwoWay}"/>
                                     </StackLayout>
