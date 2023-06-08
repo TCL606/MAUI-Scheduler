@@ -2,7 +2,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:MauiApp1"
              x:Name="MainSchedulePage"
-             x:Class="MauiApp1.MainPage">
+             x:Class="MauiApp1.MainPage"
+             Title="Maui Scheduler">
     <ContentPage.BindingContext>
         <local:EventViewModel />
     </ContentPage.BindingContext>
@@ -25,8 +26,10 @@
             <RowDefinition Height="0.85*"></RowDefinition>
         </Grid.RowDefinitions>
 
+        <Image Source="dotnet_bot.png" SemanticProperties.Description="Cute dot net bot waving hi to you!" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" HorizontalOptions="Center" VerticalOptions="Center" />
+        
         <StackLayout Grid.Column="1" Grid.Row="1" Grid.RowSpan="4" Margin="10">
-            <ListView ItemsSource="{Binding Events, Mode=TwoWay}" SelectedItem="{Binding SelectedEvent}">
+            <ListView ItemsSource="{Binding Events, Mode=OneWay}" SelectedItem="{Binding SelectedEvent}">
                 <!--ItemTapped="OnTapEvent"-->
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -43,7 +46,7 @@
                                 </SwipeView.RightItems>
                                 <SwipeView.Content>
                                     <StackLayout Orientation="Vertical" Margin="8,2,8,2">
-                                        <Label Text="{Binding Name}"/>
+                                        <Label Text="{Binding Name}" FontAttributes="Bold"/>
                                         <Label Text="{Binding Info, Mode=TwoWay}"/>
                                     </StackLayout>
                                 </SwipeView.Content>

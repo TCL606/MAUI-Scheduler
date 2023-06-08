@@ -6,7 +6,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace MauiApp1
 {
@@ -83,7 +82,7 @@ namespace MauiApp1
             }
         }
 
-        public void ResetWhenPushEvent()
+        public void ResetLabels()
         {
             this.NewEventName = "";
             this.NewEventUrgency = "";
@@ -99,20 +98,20 @@ namespace MauiApp1
                 return;
             var newEvent = new Event(this.newEventName, Utils.GetUrgency(this.newEventUrgency) ?? AllUrgency.Cake, NewEventDDLDate, NewEventDDLTime, this.Detail);
             model.AddEvent(newEvent);
-            RefreshEvents();
-            ResetWhenPushEvent();
+            CRefresh();
         }
 
         public Command<Event> DeleteEventCommand { get; init; }
         private void CDeleteEvent(Event? e)
         {
             this.model.DeleteEvent(e);
-            RefreshEvents();
+            CRefresh();
         }
 
         public Command RefreshCommand { get; init; }
         private void CRefresh()
         {
+            ResetLabels();
             RefreshEvents();
         }
         private Event? selectedEvent;
@@ -123,6 +122,12 @@ namespace MauiApp1
             {
                 this.selectedEvent = value;
                 OnPropertyChanged(nameof(SelectedEvent));
+                if (selectedEvent is null) return;
+                this.NewEventName = selectedEvent.Name;
+                this.NewEventUrgency = selectedEvent.Urgency.ToString();
+                this.NewEventDDLDate = selectedEvent.DDLDate;
+                this.NewEventDDLTime = selectedEvent.DDLTime;
+                this.Detail = selectedEvent.Detail;
             }
         }
 

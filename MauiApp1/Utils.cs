@@ -42,7 +42,7 @@ namespace MauiApp1
     public enum AllUrgency
     {
         Urgent = 4,
-        Important = 3,
+        Vital = 3,
         Routine = 2,
         Cake = 1,
     }
@@ -61,9 +61,9 @@ namespace MauiApp1
                 return 0;
             if (urg1 == AllUrgency.Urgent)
                 return 1;
-            if (urg1 == AllUrgency.Important && urg2 != AllUrgency.Urgent)
+            if (urg1 == AllUrgency.Vital && urg2 != AllUrgency.Urgent)
                 return 1;
-            if (urg1 == AllUrgency.Routine && urg2 != AllUrgency.Urgent && urg2 != AllUrgency.Important)
+            if (urg1 == AllUrgency.Routine && urg2 != AllUrgency.Urgent && urg2 != AllUrgency.Vital)
                 return 1;
             return -1;
         }
@@ -87,6 +87,13 @@ namespace MauiApp1
 
         // T1 > T2 ? 1: T1 == T2 ? 0 : 1
         public Func<T, T, int> CompareFunc { get; }
+
+        public int Count => ObjectList.Count;
+
+        public T this[int i]
+        {
+            get => ObjectList[i];
+        }
 
         public SortedList(Func<T, T, int> func, List<T>? objectList = null)
         {

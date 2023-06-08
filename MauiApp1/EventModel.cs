@@ -14,7 +14,7 @@ namespace MauiApp1
         public AllUrgency Urgency { get; set; }
         public DateTime DDLDate { get; set; }
         public TimeSpan DDLTime { get; set; }
-        public string Info => Urgency.ToString() + " | DDL: " + DDLDate.ToString("MM/dd") + " " + DDLTime.ToString(@"hh\:mm");
+        public string Info => Urgency.ToString() + " | DDL: " + DDLDate.ToShortDateString() + " " + DDLTime.ToString(@"hh\:mm");
         public string Detail { get; set; }
         public string DetailInfo => GetDetailInfo();
 
@@ -28,11 +28,22 @@ namespace MauiApp1
 
         public int CompareTo(Event? e)
         {
-            var val = Utils.CompareUrgency(this.Urgency, e?.Urgency);
+            if (e is null) 
+                return 1;
+            var val = Utils.CompareUrgency(this.Urgency, e.Urgency);
             if (val != 0)
                 return val;
+            
+            if (this.DDLDate < e.DDLDate)
+                return 1;
+            else if (this.DDLDate > e.DDLDate)
+                return -1;
+            
+            if (this.DDLTime < e.DDLTime) 
+                return 1;
+            else if (this.DDLTime > e.DDLTime) 
+                return -1;
 
-            // TODO
             return 0;
         }
 
@@ -57,6 +68,14 @@ namespace MauiApp1
 
         public void AddEvent(Event e)
         {
+            for (int i = 0; i < events.Count; i++)
+            {
+                if (e.Name == events[i].Name)
+                {
+                    events.Remove(events[i]);
+                    break;
+                }
+            }
             events.Add(e);
         }
 
