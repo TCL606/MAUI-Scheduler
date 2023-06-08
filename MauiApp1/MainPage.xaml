@@ -38,16 +38,16 @@
                                 <SwipeView.RightItems>
                                     <SwipeItems>
                                         <SwipeItem Text="Delete" 
-                                           IconImageSource="delete.png" 
-                                           BackgroundColor="Red" 
-                                           Command="{Binding Source={x:Reference Name=MainSchedulePage}, Path=BindingContext.DeleteEventCommand}" 
-                                           CommandParameter="{Binding .}" />
+                                            IconImageSource="delete.png" 
+                                            BackgroundColor="Red" 
+                                            Command="{Binding Source={x:Reference Name=MainSchedulePage}, Path=BindingContext.DeleteEventCommand}" 
+                                            CommandParameter="{Binding .}" />
                                     </SwipeItems>
                                 </SwipeView.RightItems>
                                 <SwipeView.Content>
-                                    <StackLayout Orientation="Vertical" Margin="8,2,8,2">
-                                        <Label Text="{Binding Name}" FontAttributes="Bold"/>
-                                        <Label Text="{Binding Info, Mode=TwoWay}"/>
+                                    <StackLayout Orientation="Vertical" Margin="8,2,8,2" BackgroundColor="{Binding BackgroundColor, Mode=TwoWay}">
+                                        <Label Text="{Binding Event.Name}" FontAttributes="Bold"/>
+                                        <Label Text="{Binding Event.Info, Mode=TwoWay}"/>
                                     </StackLayout>
                                 </SwipeView.Content>
                             </SwipeView>
@@ -107,8 +107,8 @@
                     </Frame>
                 </StackLayout>
 
-                <StackLayout Grid.Row="2">
-                    <Label Text="{Binding SelectedEvent.DetailInfo}" HorizontalTextAlignment="Center" LineHeight="1.35" FontSize="Medium" TextColor="Black" FontFamily="Times New Roman" Margin="10"></Label>
+                <StackLayout Grid.Row="2" BackgroundColor="{Binding SelectedEvent.BackgroundColor, Mode=TwoWay}">
+                    <Label Text="{Binding SelectedEvent.Event.DetailInfo}" HorizontalTextAlignment="Center" LineHeight="1.35" FontSize="Medium" TextColor="Black" FontFamily="Times New Roman" Margin="10"></Label>
                 </StackLayout>
             </Grid>
         </StackLayout>

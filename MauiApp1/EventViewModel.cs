@@ -9,25 +9,46 @@ using System.Threading.Tasks;
 
 namespace MauiApp1
 {
+    public class ListViewEventItem
+    {
+        public Event Event { get; set; }
+        public Color BackgroundColor => Urgency2Color(Event.Urgency);
+
+        public ListViewEventItem(Event e) 
+        {
+            Event = e;
+        }
+
+        public static Color Urgency2Color(AllUrgency urg)
+        {
+            if (urg == AllUrgency.Cake)
+                return Color.FromRgba("#FDFCF0");   // light yellow
+            else if (urg == AllUrgency.Routine)
+                return Color.FromRgba("#D5D9FD");   // light blue
+            else if (urg == AllUrgency.Vital)
+                return Color.FromRgba("#FDD2FC");   // light pink
+            else if (urg == AllUrgency.Urgent)
+                return Color.FromRgba("#FDC4CF");   // light red
+            else
+                return Color.FromRgba("#FFFFFF");
+        }
+    }
+
     public class EventViewModel : INotifyPropertyChanged
     {
         private EventModel model;
 
-        private ObservableCollection<Event> events = new();
-        public ObservableCollection<Event> Events
-        {
-            get => events;
-            set
-            {
-                events = value;
-                OnPropertyChanged(nameof(Events));
-            }
-        }
+        public ObservableCollection<ListViewEventItem> Events { get; set; } = new();
 
         private void RefreshEvents()
         {
-            Events = new ObservableCollection<Event>(model.GetEvents());
-            this.storager.WriteIn(model.GetEvents());
+            var modelEvents = model.GetEvents();
+            Events.Clear();
+            foreach (var e in modelEvents)
+            {
+                Events.Add(new ListViewEventItem(e));
+            }
+            this.storager.WriteIn(modelEvents);
         }
 
         private string newEventName = "";
@@ -106,10 +127,10 @@ namespace MauiApp1
             CRefresh();
         }
 
-        public Command<Event> DeleteEventCommand { get; init; }
-        private void CDeleteEvent(Event? e)
+        public Command<ListViewEventItem> DeleteEventCommand { get; init; }
+        private void CDeleteEvent(ListViewEventItem? e)
         {
-            this.model.DeleteEvent(e);
+            this.model.DeleteEvent(e?.Event);
             CRefresh();
         }
 
@@ -119,8 +140,8 @@ namespace MauiApp1
             ResetLabels();
             RefreshEvents();
         }
-        private Event? selectedEvent;
-        public Event? SelectedEvent
+        private ListViewEventItem? selectedEvent;
+        public ListViewEventItem? SelectedEvent
         {
             get => selectedEvent;
             set
@@ -128,11 +149,12 @@ namespace MauiApp1
                 this.selectedEvent = value;
                 OnPropertyChanged(nameof(SelectedEvent));
                 if (selectedEvent is null) return;
-                this.NewEventName = selectedEvent.Name;
-                this.NewEventUrgency = selectedEvent.Urgency.ToString();
-                this.NewEventDDLDate = selectedEvent.DDLDate;
-                this.NewEventDDLTime = selectedEvent.DDLTime;
-                this.Detail = selectedEvent.Detail;
+                var tempEvent = selectedEvent.Event;
+                this.NewEventName = tempEvent.Name;
+                this.NewEventUrgency = tempEvent.Urgency.ToString();
+                this.NewEventDDLDate = tempEvent.DDLDate;
+                this.NewEventDDLTime = tempEvent.DDLTime;
+                this.Detail = tempEvent.Detail;
             }
         }
 
@@ -173,7 +195,7 @@ namespace MauiApp1
             catch { }
             model = new EventModel(eventList);
             this.AddEventCommand = new Command(CAddEvent);
-            this.DeleteEventCommand = new Command<Event>(CDeleteEvent);
+            this.DeleteEventCommand = new Command<ListViewEventItem>(CDeleteEvent);
             this.RefreshCommand = new Command(CRefresh);
             RefreshEvents();
         }
