@@ -14,7 +14,7 @@ namespace MauiApp1
         public AllUrgency Urgency { get; set; }
         public DateTime DDLDate { get; set; }
         public TimeSpan DDLTime { get; set; }
-        public string Info => Urgency.ToString() + " | DDL: " + DDLDate.ToShortDateString() + " " + DDLTime.ToString(@"hh\:mm");
+        public string Info => Urgency.ToString() + " | DDL: " + DDLDate.ToString("MM/dd") + " " + DDLTime.ToString(@"hh\:mm");
         public string Detail { get; set; }
         public string DetailInfo => GetDetailInfo();
 
