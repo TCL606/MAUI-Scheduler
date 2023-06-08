@@ -85,9 +85,6 @@ namespace MauiApp1
     {
         public List<T> ObjectList { get; private set; }
 
-        // T1 > T2 ? 1: T1 == T2 ? 0 : 1
-        public Func<T, T, int> CompareFunc { get; }
-
         public int Count => ObjectList.Count;
 
         public T this[int i]
@@ -95,15 +92,14 @@ namespace MauiApp1
             get => ObjectList[i];
         }
 
-        public SortedList(Func<T, T, int> func, List<T>? objectList = null)
+        public SortedList(List<T>? objectList = null)
         {
-            CompareFunc = func;
             ObjectList = objectList is null ? new List<T>() : objectList.OrderByDescending(i => i).ToList();
         }
 
         public void Add(T obj)
         {
-            var index = ObjectList.FindIndex(x => CompareFunc(obj, x) >= 0);
+            var index = ObjectList.FindIndex(x => obj.CompareTo(x) >= 0);
             if (index == -1)
                 ObjectList.Add(obj);
             else

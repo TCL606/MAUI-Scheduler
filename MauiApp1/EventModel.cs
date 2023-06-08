@@ -63,7 +63,7 @@ namespace MauiApp1
 
         public EventModel(List<Event>? eventList = null)
         {
-            events = new SortedList<Event>((Event x, Event y) => Utils.CompareUrgency(x.Urgency, y.Urgency), eventList);
+            events = new SortedList<Event>(eventList);
         }
 
         public void AddEvent(Event e)

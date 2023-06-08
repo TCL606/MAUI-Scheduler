@@ -13,15 +13,20 @@ namespace MauiApp1
     {
         private EventModel model;
 
-        public ObservableCollection<Event> Events { get; private set; }
+        private ObservableCollection<Event> events = new();
+        public ObservableCollection<Event> Events
+        {
+            get => events;
+            set
+            {
+                events = value;
+                OnPropertyChanged(nameof(Events));
+            }
+        }
 
         private void RefreshEvents()
         {
-            Events.Clear();
-            foreach (var e in model.GetEvents())
-            {
-                Events.Add(e);
-            }
+            Events = new ObservableCollection<Event>(model.GetEvents());
             this.storager.WriteIn(model.GetEvents());
         }
 
@@ -94,9 +99,9 @@ namespace MauiApp1
         public Command AddEventCommand { get; init; }
         private void CAddEvent()
         {
-            if (this.NewEventName == "" || this.newEventUrgency == "")
+            if (this.NewEventName == "" || this.NewEventUrgency == "")
                 return;
-            var newEvent = new Event(this.newEventName, Utils.GetUrgency(this.newEventUrgency) ?? AllUrgency.Cake, NewEventDDLDate, NewEventDDLTime, this.Detail);
+            var newEvent = new Event(this.NewEventName, Utils.GetUrgency(this.NewEventUrgency) ?? AllUrgency.Cake, NewEventDDLDate, NewEventDDLTime, this.Detail);
             model.AddEvent(newEvent);
             CRefresh();
         }
@@ -167,7 +172,6 @@ namespace MauiApp1
             }
             catch { }
             model = new EventModel(eventList);
-            Events = new ObservableCollection<Event>(model.GetEvents());
             this.AddEventCommand = new Command(CAddEvent);
             this.DeleteEventCommand = new Command<Event>(CDeleteEvent);
             this.RefreshCommand = new Command(CRefresh);
