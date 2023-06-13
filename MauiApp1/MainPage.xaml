@@ -28,7 +28,7 @@
 
         <Image Source="dotnet_bot.png" SemanticProperties.Description="Cute dot net bot waving hi to you!" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" HorizontalOptions="Center" VerticalOptions="Center" />
         
-        <StackLayout Grid.Column="1" Grid.Row="1" Grid.RowSpan="4" Margin="10">
+        <StackLayout Grid.Column="1" Grid.Row="1" Grid.RowSpan="5" Margin="10">
             <ListView ItemsSource="{Binding Events, Mode=TwoWay}" SelectedItem="{Binding SelectedEvent}">
                 <!--ItemTapped="OnTapEvent"-->
                 <ListView.ItemTemplate>
