@@ -10,6 +10,7 @@ namespace MauiApp1
 
     public class Event : IComparable<Event>
     {
+        public static SortMethod EventSortMethod { get; set; } = SortMethod.Urgency;
         public string Name { get; set; }
         public AllUrgency Urgency { get; set; }
         public DateTime DDLDate { get; set; }
@@ -27,6 +28,29 @@ namespace MauiApp1
         }
 
         public int CompareTo(Event? e)
+        {
+            return Event.EventSortMethod == SortMethod.Urgency ? this.CompareByUrgency(e) : this.CompareByTime(e);
+        }
+
+        public int CompareByTime(Event? e)
+        {
+            if (e is null)
+                return 1;
+
+            if (this.DDLDate < e.DDLDate)
+                return 1;
+            else if (this.DDLDate > e.DDLDate)
+                return -1;
+
+            if (this.DDLTime < e.DDLTime)
+                return 1;
+            else if (this.DDLTime > e.DDLTime)
+                return -1;
+
+            return 0;
+        }
+
+        public int CompareByUrgency(Event? e)
         {
             if (e is null) 
                 return 1;
@@ -88,6 +112,16 @@ namespace MauiApp1
         {
             if (e is null) return;
             events.Remove(e);
+        }
+
+        public void Resort()
+        {
+            this.events.Resort();
+        }
+
+        public static void SetEventSortMethod(SortMethod sortMethod)
+        {
+            Event.EventSortMethod = sortMethod;
         }
     }
 }

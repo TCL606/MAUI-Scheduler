@@ -111,6 +111,22 @@ namespace MauiApp1
             }
         }
 
+        public ObservableCollection<string> AvailSortMethod { get; } = new ObservableCollection<string>(Enum.GetNames(typeof(SortMethod)));
+
+        private string eventSortMethod = SortMethod.Urgency.ToString();
+        public string EventSortMethod
+        {
+            get => eventSortMethod;
+            set
+            {
+                eventSortMethod = value;
+                EventModel.SetEventSortMethod((SortMethod)Enum.Parse(typeof(SortMethod), eventSortMethod));
+                this.model.Resort();
+                Refresh();
+                OnPropertyChanged(nameof(EventSortMethod));
+            }
+        }
+
         public void ResetLabels()
         {
             this.NewEventName = "";
@@ -127,18 +143,20 @@ namespace MauiApp1
                 return;
             var newEvent = new Event(this.NewEventName, Utils.GetUrgency(this.NewEventUrgency) ?? AllUrgency.Cake, NewEventDDLDate, NewEventDDLTime, this.Detail);
             model.AddEvent(newEvent);
-            CRefresh();
+            Refresh();
         }
 
         public Command<ListViewEventItem> DeleteEventCommand { get; init; }
         private void CDeleteEvent(ListViewEventItem? e)
         {
             this.model.DeleteEvent(e?.Event);
-            CRefresh();
+            Refresh();
         }
 
         public Command RefreshCommand { get; init; }
-        private void CRefresh()
+
+        private void CRefresh() => Refresh();
+        public void Refresh()
         {
             ResetLabels();
             RefreshEvents();

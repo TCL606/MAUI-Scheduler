@@ -47,6 +47,12 @@ namespace MauiApp1
         Cake = 1,
     }
 
+    public enum SortMethod
+    {
+        Urgency = 1,
+        Time = 2,
+    }
+
     public static class Utils
     {
         public static int CompareUrgency(AllUrgency? urg1, AllUrgency? urg2)
@@ -109,6 +115,11 @@ namespace MauiApp1
         public bool Remove(T obj)
         {
             return ObjectList.Remove(obj);
+        }
+
+        public void Resort()
+        {
+            ObjectList.Sort((x, y) => y.CompareTo(x));
         }
     }
 }

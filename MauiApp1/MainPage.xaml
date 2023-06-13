@@ -27,6 +27,18 @@
         </Grid.RowDefinitions>
 
         <Image Source="dotnet_bot.png" SemanticProperties.Description="Cute dot net bot waving hi to you!" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" HorizontalOptions="Center" VerticalOptions="Center" />
+
+        <StackLayout Grid.Column="1" Grid.Row="0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                    <ColumnDefinition Width="1.5*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Text="Sort By" FontAttributes="Bold" VerticalOptions="Center"></Label>
+                <Picker Grid.Column="1" ItemsSource="{Binding AvailSortMethod, Mode=TwoWay}" SelectedItem="{Binding EventSortMethod, Mode=TwoWay}" BackgroundColor="Transparent"></Picker>
+            </Grid>
+
+        </StackLayout>
         
         <StackLayout Grid.Column="1" Grid.Row="1" Grid.RowSpan="5" Margin="10">
             <ListView ItemsSource="{Binding Events, Mode=TwoWay}" SelectedItem="{Binding SelectedEvent}">
