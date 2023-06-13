@@ -12,15 +12,18 @@ namespace MauiApp1
     public class ListViewEventItem
     {
         public Event Event { get; set; }
-        public Color BackgroundColor => Urgency2Color(Event.Urgency);
+        public Color BackgroundColor => Event2Color(Event);
 
         public ListViewEventItem(Event e) 
         {
             Event = e;
         }
 
-        public static Color Urgency2Color(AllUrgency urg)
+        public static Color Event2Color(Event e)
         {
+            if (e.DDLDate < DateTime.Now || (e.DDLDate == DateTime.Now && e.DDLTime < DateTime.Now.TimeOfDay))
+                return Color.FromRgba("#E6E6E6");   // light gray
+            var urg = e.Urgency;
             if (urg == AllUrgency.Cake)
                 return Color.FromRgba("#FDFCF0");   // light yellow
             else if (urg == AllUrgency.Routine)
