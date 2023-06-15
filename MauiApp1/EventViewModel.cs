@@ -21,7 +21,7 @@ namespace MauiApp1
 
         public static Color Event2Color(Event e)
         {
-            if (e.DDLDate < DateTime.Now || (e.DDLDate == DateTime.Now && e.DDLTime < DateTime.Now.TimeOfDay))
+            if (e.DDLDate.Date < DateTime.Now.Date || (e.DDLDate.Date == DateTime.Now.Date && e.DDLTime < DateTime.Now.TimeOfDay))
                 return Color.FromRgba("#E6E6E6");   // light gray
             var urg = e.Urgency;
             if (urg == AllUrgency.Cake)
